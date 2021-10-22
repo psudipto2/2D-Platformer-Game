@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class Player_Controller : MonoBehaviour
 {
@@ -11,6 +12,13 @@ public class Player_Controller : MonoBehaviour
     [SerializeField] float jumpValue;
     private Rigidbody2D rb;
     public ScoreController scoreController;
+
+    private int health = 3;
+    private int numOfHearts = 3;
+    public Image[] heart;
+    public Sprite FullHeart;
+    public Sprite BlankHeart;
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Loose"))
@@ -44,10 +52,35 @@ public class Player_Controller : MonoBehaviour
 
     internal void killPlayer()
     {
-        Debug.Log("Player Killed by enemy");
-        animator.SetInteger("Death", 1);
-        Destroy(gameObject, 2f);
-        Reload();
+        
+        //Destroy(gameObject, 2f);
+        if (health == 1)
+        {
+            Debug.Log("Player Killed by enemy");
+            animator.SetInteger("Death", 1);
+            Reload();
+        }
+        else
+        {
+            Debug.Log("Player Hitted by enemy");
+            ReduceHealth();
+        }
+    }
+
+    private void ReduceHealth()
+    {
+        health--;
+        for (int i = 0; i < heart.Length; i++)
+        {
+            if (i < health)
+            {
+                heart[i].sprite = FullHeart;
+            }
+            else
+            {
+                heart[i].sprite = BlankHeart;
+            }
+        }
     }
 
     private void Reload()
