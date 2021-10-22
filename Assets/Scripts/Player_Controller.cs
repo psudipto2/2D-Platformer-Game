@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Player_Controller : MonoBehaviour
 {
@@ -16,6 +17,8 @@ public class Player_Controller : MonoBehaviour
         {
             transform.position=new Vector3(14,-2,0);
             animator.SetInteger("Death", 1);
+            Destroy(gameObject, 2f);
+            Reload();
         }
     }
 
@@ -39,6 +42,18 @@ public class Player_Controller : MonoBehaviour
         //Input.GetKeyDown(KeyCode.Space);
     }
 
+    internal void killPlayer()
+    {
+        Debug.Log("Player Killed by enemy");
+        animator.SetInteger("Death", 1);
+        Destroy(gameObject, 2f);
+        Reload();
+    }
+
+    private void Reload()
+    {
+        SceneManager.LoadScene(0);
+    }
 
     private void MoveCharacter(float horizontal,float vertical)
     {
@@ -57,11 +72,11 @@ public class Player_Controller : MonoBehaviour
         Vector3 scale = transform.localScale;
         if (horizontal < 0)
         {
-            scale.x = -3f * Mathf.Abs(horizontal);
+            scale.x = -2f * Mathf.Abs(horizontal);
         }
         else if (horizontal > 0)
         {
-            scale.x = 3 * Mathf.Abs(horizontal);
+            scale.x = 2 * Mathf.Abs(horizontal);
         }
         transform.localScale = scale;
         
