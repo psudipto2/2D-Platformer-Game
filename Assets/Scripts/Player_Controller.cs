@@ -11,10 +11,13 @@ public class Player_Controller : MonoBehaviour
     [SerializeField] float speed;
     [SerializeField] float jumpValue;
     private Rigidbody2D rb;
+
+
+
     public ScoreController scoreController;
+    public GameOverController gameOverController;
 
     private int health = 3;
-    private int numOfHearts = 3;
     public Image[] heart;
     public Sprite FullHeart;
     public Sprite BlankHeart;
@@ -25,8 +28,8 @@ public class Player_Controller : MonoBehaviour
         {
             transform.position=new Vector3(14,-2,0);
             animator.SetInteger("Death", 1);
-            Destroy(gameObject, 2f);
-            Reload();
+            this.enabled = false;
+            gameOverController.PlayerDied();
         }
     }
 
@@ -39,6 +42,7 @@ public class Player_Controller : MonoBehaviour
     private void Awake()
     {
         rb = gameObject.GetComponent<Rigidbody2D>();
+
     }
     void Update()
     {
@@ -54,11 +58,12 @@ public class Player_Controller : MonoBehaviour
     {
         
         //Destroy(gameObject, 2f);
-        if (health == 1)
+        if (health < 1)
         {
             Debug.Log("Player Killed by enemy");
             animator.SetInteger("Death", 1);
-            Reload();
+            this.enabled = false;
+            gameOverController.PlayerDied();
         }
         else
         {
@@ -83,10 +88,11 @@ public class Player_Controller : MonoBehaviour
         }
     }
 
-    private void Reload()
-    {
-        SceneManager.LoadScene(0);
-    }
+   // private void Reload()
+    //{
+        
+      //  SceneManager.LoadScene(0);
+    //}
 
     private void MoveCharacter(float horizontal,float vertical)
     {
