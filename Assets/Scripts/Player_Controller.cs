@@ -37,23 +37,16 @@ public class Player_Controller : MonoBehaviour
             gameOverController.PlayerDied();
         }
     }
-   /* private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.CompareTag("Loose"))
-        {
-            rb.velocity = new Vector2(-2f, 6f);
-            animator.SetInteger("Death", 1);
-            this.enabled = false;
-            gameOverController.PlayerDied();
-        }
-    }
-   */
+   
     internal void pickUpKey()
     {
         Debug.Log("Key is picked up by the Player");
         scoreController.increaseScore(10);
     }
-
+    private void Start()
+    {
+        SoundManager.Instance.Mute(false);
+    }
     private void Awake()
     {
         rb = gameObject.GetComponent<Rigidbody2D>();
@@ -158,6 +151,7 @@ public class Player_Controller : MonoBehaviour
         transform.position = position;
         if (vertical > 0)
         {
+            SoundManager.Instance.Play(Sounds.PlayerJump);
             rb.AddForce(new Vector2(0f, jumpValue), ForceMode2D.Force);
         }
     }
@@ -168,9 +162,11 @@ public class Player_Controller : MonoBehaviour
             if (run>=1)
             {
                 animator.SetFloat("Speed", Mathf.Abs(horizontal*2));
+                SoundManager.Instance.Play(Sounds.PlayerRun);
             }
             else
             {
+                SoundManager.Instance.Play(Sounds.PlayerWalk);
                 animator.SetFloat("Speed", Mathf.Abs(horizontal));
             }
             //animator.SetFloat("Speed", Mathf.Abs(horizontal));
