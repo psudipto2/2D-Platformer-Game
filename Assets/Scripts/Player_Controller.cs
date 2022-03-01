@@ -9,6 +9,14 @@ public class Player_Controller : MonoBehaviour
     [SerializeField] float speed;
     [SerializeField] float jumpValue;
     private Rigidbody2D rb;
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Loose"))
+        {
+            transform.position=new Vector3(14,-2,0);
+            animator.SetInteger("Death", 1);
+        }
+    }
     private void Awake()
     {
         rb = gameObject.GetComponent<Rigidbody2D>();
