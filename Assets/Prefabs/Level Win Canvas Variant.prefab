@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d4143b46d0d36a449df4a9a9060d606, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  levelManager: {fileID: 0}
+  winCanvas: {fileID: 3325023203864925667}
   Restrat: {fileID: 3325023204843134998}
   Quit: {fileID: 3325023204648787828}
   Lobby: {fileID: 3325023205047857408}

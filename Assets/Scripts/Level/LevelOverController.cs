@@ -7,8 +7,8 @@ using UnityEngine.UI;
 
 public class LevelOverController : MonoBehaviour
 {
-    LevelManager levelManager;
-    GameObject gameObject;
+    public LevelManager levelManager;
+    public GameObject winCanvas;
     public Button Restrat;
     public Button Quit;
     public Button Lobby;
@@ -20,9 +20,9 @@ public class LevelOverController : MonoBehaviour
         Lobby.onClick.AddListener(LoadLobbby);
         NextLevel.onClick.AddListener(nextLevel);
     }
-
     private void nextLevel()
     {
+        SoundManager.Instance.Play(Sounds.ButtonClicked);
         int nextSceneIndex = SceneManager.GetActiveScene().buildIndex + 1;
         SceneManager.LoadScene(nextSceneIndex);
     }
@@ -33,20 +33,23 @@ public class LevelOverController : MonoBehaviour
         {
             Debug.Log("Level finished by the player");
             levelManager.MarkLevelComplete();
-            gameObject.SetActive(true);
+            winCanvas.SetActive(true);
         }
     }
     public void ReloadLevel()
     {
+        SoundManager.Instance.Play(Sounds.ButtonClicked);
         Scene scene = SceneManager.GetActiveScene();
         SceneManager.LoadScene(scene.buildIndex);
     }
     public void quit()
     {
+        SoundManager.Instance.Play(Sounds.ButtonClicked);
         Application.Quit();
     }
     public void LoadLobbby()
     {
+        SoundManager.Instance.Play(Sounds.ButtonClicked);
         SceneManager.LoadScene(0);
     }
 }

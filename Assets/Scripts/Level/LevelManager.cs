@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,7 +9,7 @@ public class LevelManager : MonoBehaviour
     private static LevelManager instance;
     public static LevelManager Instance { get { return instance; } }
 
-    public string level;
+    public string[] levels;
     private void Awake()
     {
         if (instance == null)
@@ -23,18 +24,25 @@ public class LevelManager : MonoBehaviour
     }
     private void Start()
     {
-        if (GetLevelStatus(level)==LevelStatus.Locked)
+        if (GetLevelStatus(levels[0])==LevelStatus.Locked)
         {
-            setLevelStatus(level, LevelStatus.Unlocked);
+            setLevelStatus(levels[0], LevelStatus.Unlocked);
         }
     }
     public void MarkLevelComplete()
     {
         Scene currentScene = SceneManager.GetActiveScene();
         setLevelStatus(currentScene.name, LevelStatus.Completed);
-        int nextSceneIndex = currentScene.buildIndex + 1;
-        Scene nextScene = SceneManager.GetSceneAt(nextSceneIndex);
-        setLevelStatus(nextScene.name, LevelStatus.Unlocked);
+        /* int nextSceneIndex = currentScene.buildIndex + 1;
+         Scene nextScene = SceneManager.GetSceneByBuildIndex(nextSceneIndex);
+         setLevelStatus(nextScene.name, LevelStatus.Unlocked);
+         Debug.Log("Level Completed");*/
+        int currentSceneIndex = Array.FindIndex(levels, level => level == currentScene.name);
+        int nextSceneIndex = currentSceneIndex + 1;
+        if (nextSceneIndex < levels.Length)
+        {
+            setLevelStatus(levels[nextSceneIndex], LevelStatus.Unlocked);
+        }
     }
     public LevelStatus GetLevelStatus(string level)
     {
