@@ -9,6 +9,7 @@ public class Player_Controller : MonoBehaviour
     [SerializeField] float speed;
     [SerializeField] float jumpValue;
     private Rigidbody2D rb;
+    public ScoreController scoreController;
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Loose"))
@@ -17,6 +18,13 @@ public class Player_Controller : MonoBehaviour
             animator.SetInteger("Death", 1);
         }
     }
+
+    internal void pickUpKey()
+    {
+        Debug.Log("Key is picked up by the Player");
+        scoreController.increaseScore(10);
+    }
+
     private void Awake()
     {
         rb = gameObject.GetComponent<Rigidbody2D>();
